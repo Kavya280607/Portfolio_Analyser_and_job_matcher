@@ -1,239 +1,32 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfolio Analyser and Job Matcher</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-
-<header class="navbar">
-    <div class="brand">Portfolio<span>Match</span></div>
-    <nav>
-        <a href="#" onclick="showPage('home')">Home</a>
-        <a href="#" onclick="showPage('dashboard')">Dashboard</a>
-        <a href="#" onclick="showPage('jobs')">Jobs</a>
-        <a href="#" onclick="showPage('myjobs')">My Jobs</a>
-        <a href="#" onclick="showPage('company')">Company</a>
-    </nav>
-    <button class="logout-btn" onclick="logout()">Logout</button>
-</header>
-
-<main>
-
-    <section id="home" class="page active">
-        <div class="hero">
-            <div class="hero-text">
-                <p class="small-title">YOUR CAREER STARTS HERE</p>
-                <h1>Turn your portfolio into your next <span>opportunity.</span></h1>
-                <p>Analyse your portfolio, discover your skills and find jobs that match your profile.</p>
-                <button onclick="showPage('login')">Get Started</button>
-            </div>
-            <div class="hero-card">
-                <div class="circle">P</div>
-                <h2>Portfolio Analyser</h2>
-                <p>Skills • Projects • Experience</p>
-                <div class="hero-line"></div>
-                <h3>Find your perfect job match.</h3>
-            </div>
-        </div>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>PortfolioMatch | Portfolio Analyzer & Job Matcher</title><link rel="stylesheet" href="style.css"></head><body>
+<div id="login" class="login-wrap">
+  <div class="login-shell">
+    <section class="login-showcase">
+      <div class="brand brand-light">PORTFOLIO<span>MATCH</span></div>
+      <span class="login-kicker">YOUR CAREER, IN FOCUS</span>
+      <h1>Find the work that fits you.</h1>
+      <p>One simple place to match skills with opportunities.</p>
+      <div class="login-highlights"><span>✦ Resume insights</span><span>↗ Job matching</span></div>
+      <div class="showcase-orbit orbit-one"></div><div class="showcase-orbit orbit-two"></div>
     </section>
-
-    <section id="login" class="page">
-        <div class="auth-card">
-            <p class="small-title">WELCOME BACK</p>
-            <h2>Login to your account</h2>
-
-            <form id="loginForm">
-                <label>Email</label>
-                <input type="email" id="loginEmail" required placeholder="Enter your email">
-
-                <label>Password</label>
-                <input type="password" id="loginPassword" required placeholder="Enter password">
-
-                <button type="submit">Login</button>
-            </form>
-
-            <p class="switch-text">
-                Don't have an account?
-                <a href="#" onclick="showPage('register')">Register</a>
-            </p>
-        </div>
+    <section class="login-panel">
+      <div class="mobile-brand brand">PORTFOLIO<span>MATCH</span></div>
+      <span class="eyebrow">PORTFOLIOMATCH</span>
+      <h2 id="authHeading">Welcome back</h2>
+      <p class="login-subtitle" id="authSubtitle">Sign in to continue to your workspace.</p>
+      <label for="accountRole">Continue as</label><select id="accountRole"><option value="jobseeker">Job seeker</option><option value="company">Company / recruiter</option></select><div class="register-field register-company-field"><label for="companyName" id="companyNameLabel" class="register-only">Company name</label><input id="companyName" class="register-only" placeholder="Company name" autocomplete="organization"></div><label for="loginEmail">Email address</label><input id="loginEmail" type="email" placeholder="you@example.com" autocomplete="email">
+      <label for="loginPassword">Password</label><input id="loginPassword" type="password" placeholder="Enter your password" autocomplete="current-password">
+      <div class="register-field register-name-field"><label for="loginName" id="loginNameLabel" class="register-only">Full name</label>
+      <input id="loginName" class="register-only" placeholder="Enter your name" autocomplete="name"></div>
+      <div class="login-actions"><button id="authSubmit" onclick="auth('login')">Sign in <span>→</span></button><button id="authToggle" class="ghost" onclick="toggleRegister()">Create account</button></div>
+      <small id="authMsg" role="status"></small>
+      <div class="privacy-note">Secure sign in · Separate seeker and company workspaces</div>
     </section>
-
-    <section id="register" class="page">
-        <div class="auth-card">
-            <p class="small-title">CREATE YOUR ACCOUNT</p>
-            <h2>Register</h2>
-
-            <form id="registerForm">
-                <label>Name</label>
-                <input type="text" id="regName" required placeholder="Enter your name">
-
-                <label>Email</label>
-                <input type="email" id="regEmail" required placeholder="Enter your email">
-
-                <label>Password</label>
-                <input type="password" id="regPassword" required placeholder="Create password">
-
-                <label>Account Type</label>
-                <select id="regRole" onchange="toggleCompanyField()">
-                    <option value="jobseeker">Job Seeker</option>
-                    <option value="company">Company</option>
-                </select>
-
-                <div id="companyNameBox" style="display:none">
-                    <label>Company Name</label>
-                    <input type="text" id="regCompany" placeholder="Enter company name">
-                </div>
-
-                <button type="submit">Create Account</button>
-            </form>
-
-            <p class="switch-text">
-                Already registered?
-                <a href="#" onclick="showPage('login')">Login</a>
-            </p>
-        </div>
-    </section>
-
-    <section id="dashboard" class="page">
-        <div class="section-heading">
-            <p class="small-title">YOUR PROFILE</p>
-            <h1>Portfolio Analysis</h1>
-            <p>Upload your portfolio to extract information and find matching jobs.</p>
-        </div>
-
-        <div class="upload-card">
-            <h2>Upload Your Portfolio</h2>
-            <p>Supported formats: PDF, DOCX, TXT, CSV and images.</p>
-
-            <form id="uploadForm">
-                <input type="file" id="portfolioFile" accept=".pdf,.docx,.txt,.csv,.png,.jpg,.jpeg" required>
-                <button type="submit">Analyse Portfolio</button>
-            </form>
-            <p id="uploadMessage" class="message"></p>
-        </div>
-
-        <div id="analysisResults" class="results" style="display:none">
-            <h2>Analysis Results</h2>
-
-            <div class="result-card">
-                <h3>Extracted Skills</h3>
-                <div id="skillsList" class="tag-list"></div>
-            </div>
-
-            <div class="result-card">
-                <h3>Education</h3>
-                <div id="educationList"></div>
-            </div>
-
-            <div class="result-card">
-                <h3>Experience</h3>
-                <div id="experienceList"></div>
-            </div>
-
-            <div class="result-card">
-                <h3>Projects</h3>
-                <div id="projectsList"></div>
-            </div>
-
-            <div class="result-card">
-                <h3>Certifications</h3>
-                <div id="certificationsList"></div>
-            </div>
-
-            <div class="result-card">
-                <h3>Top 3 Job Recommendations</h3>
-                <div id="recommendationsList"></div>
-            </div>
-        </div>
-    </section>
-
-    <section id="jobs" class="page">
-        <div class="section-heading">
-            <p class="small-title">OPPORTUNITIES</p>
-            <h1>Explore Jobs</h1>
-            <p>Discover available job opportunities.</p>
-        </div>
-
-        <button onclick="loadJobs()">Refresh Jobs</button>
-        <div id="jobsList" class="job-grid"></div>
-    </section>
-
-    <section id="myjobs" class="page">
-        <div class="section-heading">
-            <p class="small-title">YOUR ACTIVITY</p>
-            <h1>My Jobs</h1>
-        </div>
-
-        <div class="two-column">
-            <div class="result-card">
-                <h2>Saved Jobs</h2>
-                <div id="savedJobs"></div>
-            </div>
-
-            <div class="result-card">
-                <h2>Applied Jobs</h2>
-                <div id="appliedJobs"></div>
-            </div>
-        </div>
-        <button onclick="loadMyJobs()">Refresh My Jobs</button>
-    </section>
-
-    <section id="company" class="page">
-        <div class="section-heading">
-            <p class="small-title">COMPANY PORTAL</p>
-            <h1>Company Dashboard</h1>
-            <p>Manage company information and job requirements.</p>
-        </div>
-
-        <div class="result-card">
-            <h2>Company Profile</h2>
-            <form id="companyProfileForm">
-                <label>Company Name</label>
-                <input type="text" id="companyName" required>
-
-                <label>Company Description</label>
-                <textarea id="companyDescription" rows="3"></textarea>
-
-                <button type="submit">Save Profile</button>
-            </form>
-        </div>
-
-        <div class="result-card">
-            <h2>Add Job</h2>
-            <form id="companyJobForm">
-                <label>Job Title</label>
-                <input type="text" id="jobTitle" required>
-
-                <label>Job Description</label>
-                <textarea id="jobDescription" rows="3"></textarea>
-
-                <label>Required Skills</label>
-                <input type="text" id="jobSkills" placeholder="Python, Java, SQL" required>
-
-                <button type="submit">Add Job</button>
-            </form>
-        </div>
-
-        <div class="result-card">
-            <h2>Evaluate Candidate</h2>
-            <form id="candidateForm">
-                <input type="file" id="candidateFile" accept=".pdf,.docx,.txt,.csv,.png,.jpg,.jpeg" required>
-                <button type="submit">Analyse Candidate</button>
-            </form>
-            <div id="candidateResults"></div>
-        </div>
-    </section>
-
-</main>
-
-<footer>
-    <p>Portfolio Analyser and Job Matcher</p>
-</footer>
-
-<script src="app.js"></script>
-</body>
-</html>
+  </div>
+</div>
+<div id="app" class="app hidden"><aside class="topbar"><div class="brand side">PORTFOLIO<span>MATCH</span></div><nav id="mainNav"><button class="nav active" data-page="overview">Overview</button><button class="nav" data-page="analyzer">Resume Studio</button><button class="nav" data-page="jobs">Explore Jobs</button><button class="nav" data-page="myjobs">My Jobs</button><button class="nav" data-page="insights">Skill Gaps</button></nav><div class="top-account"><span class="avatar" id="avatar">U</span><span><b id="sideName">User</b><small id="sideEmail"></small></span><button class="logout" onclick="logout()">Sign out ↗</button></div></aside><main><header><div><span class="eyebrow">PORTFOLIO INTELLIGENCE</span><h1 id="pageTitle">Overview</h1></div><div class="status"><i></i> Backend connected</div></header>
+<section id="overview" class="page"><div class="hero"><div><span class="pill">SKILLS-FIRST MATCHING</span><h2>Turn a portfolio into job-ready insights.</h2><p>Analyze portfolios and compare candidate skills with company job requirements.</p><button onclick="showPage('analyzer')">Analyze portfolio →</button></div></div><div class="cards"><div><small>SKILLS EXTRACTED</small><strong id="ovSkills">0</strong></div><div><small>JOBS AVAILABLE</small><strong id="ovJobs">0</strong></div><div><small>LAST SCORE</small><strong id="ovScore">—</strong></div><div><small>OCR</small><strong id="ovOCR">Ready</strong></div></div><div class="results history-grid"><div class="result-card"><h3>Previous Portfolios</h3><div id="portfolioHistory"></div></div><div class="result-card"><h3>Previous Job Matches</h3><div id="matchHistory"></div></div></div></section>
+<section id="analyzer" class="page hidden"><div class="section-head"><div><span class="eyebrow">CANDIDATE DATASET</span><h2>Portfolio Analyzer</h2></div><span class="tag">PDF · DOCX · TXT · CSV · IMAGE</span></div><div class="analyzer-grid"><div class="upload-card"><h3>Upload your portfolio</h3><p>Upload a portfolio to analyze its candidate information.</p><label class="drop"><input id="portfolioFile" type="file" accept=".pdf,.docx,.txt,.csv,.png,.jpg,.jpeg"><span>Choose portfolio file</span><b id="fileName">No file selected</b></label><button onclick="analyze()">Extract details →</button><div class="sample-row"><select id="sampleSelect"><option value="">Try a sample portfolio</option><option value="sample_portfolios/01_software_engineer.txt">Software Engineer</option><option value="sample_portfolios/02_frontend_designer.txt">Frontend Designer</option><option value="sample_portfolios/03_data_science.txt">Data Science</option><option value="sample_portfolios/04_java_fullstack.txt">Java Full Stack</option><option value="sample_portfolios/05_minimal_resume.txt">Minimal Resume</option></select><button class="ghost" onclick="loadSample()">Load sample</button></div><div id="analyzeMsg"></div></div><div class="profile-card"><div class="profile-top"><div class="avatar big" id="profileAvatar">?</div><div><h2 id="candidateName">No portfolio analyzed</h2><p id="candidateContact">Upload a portfolio to create the candidate profile.</p></div></div><div class="score"><div><small>PORTFOLIO COMPLETENESS</small><strong id="profileScore">—</strong></div><div class="bar"><i id="scoreBar"></i></div></div><div class="mini-grid"><div><small>SKILLS</small><b id="countSkills">0</b></div><div><small>PROJECTS</small><b id="countProjects">0</b></div><div><small>EXPERIENCE</small><b id="countExp">0</b></div><div><small>EDUCATION</small><b id="countEdu">0</b></div></div></div></div><div class="results"><div class="result-card"><h3>Extracted skills</h3><div id="skills" class="chips"></div></div><div class="result-card"><h3>Projects / evidence</h3><div id="projects"></div></div><div class="result-card"><h3>Education & experience</h3><div id="eduExp"></div></div></div><section class="recommendation-section"><div class="section-head"><div><span class="eyebrow">BASED ON YOUR EXTRACTED SKILLS</span><h2>Top 3 job matches</h2><p class="section-copy">Your closest matches appear here automatically. You can compare any job in detail.</p></div><span class="tag tag-purple">PERSONALIZED FOR YOU</span></div><div id="recommendedJobs" class="jobs recommendation-jobs"><div class="recommend-empty">Upload a portfolio to see your best-matching opportunities.</div></div></section></section>
+<section id="jobs" class="page hidden"><div class="section-head"><div><span class="eyebrow">OPPORTUNITY DATASET</span><h2>Job Matcher</h2></div></div><div class="searchbar"><input id="jobSearch" placeholder="Search company, job title or skill..."><input id="locationSearch" placeholder="Location"><button onclick="searchJobs()">Search</button><button class="ghost" onclick="clearJobs()">Clear</button></div><div id="jobsList" class="jobs"></div></section>
+<section id="myjobs" class="page hidden"><div class="section-head"><div><span class="eyebrow">YOUR JOB ACTIVITY</span><h2>Saved & Applied Jobs</h2><p class="section-copy">Keep track of opportunities you want to revisit and applications you have submitted.</p></div><button class="ghost" onclick="loadMyJobs()">Refresh</button></div><div class="myjobs-grid"><div class="result-card"><h3>Saved Jobs</h3><div id="savedJobsList"></div></div><div class="result-card"><h3>Applied Jobs</h3><div id="appliedJobsList"></div></div></div></section><section id="insights" class="page hidden"><div class="section-head"><div><span class="eyebrow">SKILL GAP</span><h2>Skill Insights</h2></div></div><div class="insight-grid"><div class="insight-card"><h3>Matching Skills</h3><div id="matchingSkills" class="chips"></div></div><div class="insight-card"><h3>Missing Skills</h3><div id="missingSkills" class="chips"></div></div></div></section>
+<section id="companyPanel" class="hidden company-panel"><div class="company-hero"><span class="eyebrow">EMPLOYER WORKSPACE</span><h2>Build your team with skills-first matching.</h2><p>Publish a role, upload a candidate resume, and compare their extracted skills against your requirements.</p></div><div class="company-grid"><form class="result-card company-form" onsubmit="saveCompanyProfile(event)"><h3>Company profile</h3><label>Company name<input id="cpName" required placeholder="Company name"></label><label>Industry<input id="cpIndustry" placeholder="e.g. Software / IT"></label><label>Location<input id="cpLocation" placeholder="City, country"></label><label>Website<input id="cpWebsite" placeholder="https://company.com"></label><label>Contact person<input id="cpContact" placeholder="Recruiter name"></label><label>About company<textarea id="cpDescription" rows="3" placeholder="What your company does"></textarea></label><button type="submit">Save company details</button><small id="companyProfileMsg"></small></form><form class="result-card company-form" onsubmit="createCompanyJob(event)"><h3>Post a job</h3><label>Job title<input id="cjTitle" required placeholder="Junior Software Developer"></label><label>Required skills<input id="cjSkills" required placeholder="Python, SQL, HTML, Git"></label><label>Location<input id="cjLocation" placeholder="Location / Remote"></label><label>Job type<input id="cjType" placeholder="Full-time / Internship"></label><label>Salary range<input id="cjSalary" placeholder="Optional"></label><label>Experience required<input id="cjExperience" placeholder="Fresher / 0–2 years"></label><label>Job description<textarea id="cjDescription" rows="3" placeholder="Responsibilities and role details"></textarea></label><button type="submit">Publish job</button><small id="companyJobMsg"></small></form></div><section class="result-card company-jobs-card"><div class="section-head"><div><span class="eyebrow">YOUR OPENINGS</span><h2>Company jobs</h2></div></div><div id="companyJobs" class="jobs"></div></section><section class="result-card company-candidate"><div class="section-head"><div><span class="eyebrow">CANDIDATE EVALUATION</span><h2>Check a candidate resume</h2><p class="section-copy">The resume is compared with your published jobs. Results are decision support, not an automatic hiring decision.</p></div></div><form onsubmit="analyzeCompanyCandidate(event)"><label class="drop"><input id="candidateFile" type="file" accept=".pdf,.docx,.txt,.png,.jpg,.jpeg" required><span>Choose candidate resume</span><b id="candidateFileName">PDF, DOCX or image</b></label><button type="submit">Analyze candidate against my jobs →</button></form><div id="companyCandidateResults"></div></section></section></main></div><script src="app.js"></script></body></html>
