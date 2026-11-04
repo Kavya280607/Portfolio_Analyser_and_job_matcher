@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio Analyser and Job Matcher</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="navbar">
+    <div class="brand">Portfolio<span>Match</span></div>
+    <nav>
+        <a href="#" onclick="showPage('home')">Home</a>
+        <a href="#" onclick="showPage('dashboard')">Dashboard</a>
+        <a href="#" onclick="showPage('jobs')">Jobs</a>
+        <a href="#" onclick="showPage('myjobs')">My Jobs</a>
+        <a href="#" onclick="showPage('company')">Company</a>
+    </nav>
+    <button class="logout-btn" onclick="logout()">Logout</button>
+</header>
+
+<main>
+
+    <section id="home" class="page active">
+        <div class="hero">
+            <div class="hero-text">
+                <p class="small-title">YOUR CAREER STARTS HERE</p>
+                <h1>Turn your portfolio into your next <span>opportunity.</span></h1>
+                <p>Analyse your portfolio, discover your skills and find jobs that match your profile.</p>
+                <button onclick="showPage('login')">Get Started</button>
+            </div>
+            <div class="hero-card">
+                <div class="circle">P</div>
+                <h2>Portfolio Analyser</h2>
+                <p>Skills • Projects • Experience</p>
+                <div class="hero-line"></div>
+                <h3>Find your perfect job match.</h3>
+            </div>
+        </div>
+    </section>
+
+    <section id="login" class="page">
+        <div class="auth-card">
+            <p class="small-title">WELCOME BACK</p>
+            <h2>Login to your account</h2>
+
+            <form id="loginForm">
+                <label>Email</label>
+                <input type="email" id="loginEmail" required placeholder="Enter your email">
+
+                <label>Password</label>
+                <input type="password" id="loginPassword" required placeholder="Enter password">
+
+                <button type="submit">Login</button>
+            </form>
+
+            <p class="switch-text">
+                Don't have an account?
+                <a href="#" onclick="showPage('register')">Register</a>
+            </p>
+        </div>
+    </section>
+
+    <section id="register" class="page">
+        <div class="auth-card">
+            <p class="small-title">CREATE YOUR ACCOUNT</p>
+            <h2>Register</h2>
+
+            <form id="registerForm">
+                <label>Name</label>
+                <input type="text" id="regName" required placeholder="Enter your name">
+
+                <label>Email</label>
+                <input type="email" id="regEmail" required placeholder="Enter your email">
+
+                <label>Password</label>
+                <input type="password" id="regPassword" required placeholder="Create password">
+
+                <label>Account Type</label>
+                <select id="regRole" onchange="toggleCompanyField()">
+                    <option value="jobseeker">Job Seeker</option>
+                    <option value="company">Company</option>
+                </select>
+
+                <div id="companyNameBox" style="display:none">
+                    <label>Company Name</label>
+                    <input type="text" id="regCompany" placeholder="Enter company name">
+                </div>
+
+                <button type="submit">Create Account</button>
+            </form>
+
+            <p class="switch-text">
+                Already registered?
+                <a href="#" onclick="showPage('login')">Login</a>
+            </p>
+        </div>
+    </section>
+
+    <section id="dashboard" class="page">
+        <div class="section-heading">
+            <p class="small-title">YOUR PROFILE</p>
+            <h1>Portfolio Analysis</h1>
+            <p>Upload your portfolio to extract information and find matching jobs.</p>
+        </div>
+
+        <div class="upload-card">
+            <h2>Upload Your Portfolio</h2>
+            <p>Supported formats: PDF, DOCX, TXT, CSV and images.</p>
+
+            <form id="uploadForm">
+                <input type="file" id="portfolioFile" accept=".pdf,.docx,.txt,.csv,.png,.jpg,.jpeg" required>
+                <button type="submit">Analyse Portfolio</button>
+            </form>
+            <p id="uploadMessage" class="message"></p>
+        </div>
+
+        <div id="analysisResults" class="results" style="display:none">
+            <h2>Analysis Results</h2>
+
+            <div class="result-card">
+                <h3>Extracted Skills</h3>
+                <div id="skillsList" class="tag-list"></div>
+            </div>
+
+            <div class="result-card">
+                <h3>Education</h3>
+                <div id="educationList"></div>
+            </div>
+
+            <div class="result-card">
+                <h3>Experience</h3>
+                <div id="experienceList"></div>
+            </div>
+
+            <div class="result-card">
+                <h3>Projects</h3>
+                <div id="projectsList"></div>
+            </div>
+
+            <div class="result-card">
+                <h3>Certifications</h3>
+                <div id="certificationsList"></div>
+            </div>
+
+            <div class="result-card">
+                <h3>Top 3 Job Recommendations</h3>
+                <div id="recommendationsList"></div>
+            </div>
+        </div>
+    </section>
+
+    <section id="jobs" class="page">
+        <div class="section-heading">
+            <p class="small-title">OPPORTUNITIES</p>
+            <h1>Explore Jobs</h1>
+            <p>Discover available job opportunities.</p>
+        </div>
+
+        <button onclick="loadJobs()">Refresh Jobs</button>
+        <div id="jobsList" class="job-grid"></div>
+    </section>
+
+    <section id="myjobs" class="page">
+        <div class="section-heading">
+            <p class="small-title">YOUR ACTIVITY</p>
+            <h1>My Jobs</h1>
+        </div>
+
+        <div class="two-column">
+            <div class="result-card">
+                <h2>Saved Jobs</h2>
+                <div id="savedJobs"></div>
+            </div>
+
+            <div class="result-card">
+                <h2>Applied Jobs</h2>
+                <div id="appliedJobs"></div>
+            </div>
+        </div>
+        <button onclick="loadMyJobs()">Refresh My Jobs</button>
+    </section>
+
+    <section id="company" class="page">
+        <div class="section-heading">
+            <p class="small-title">COMPANY PORTAL</p>
+            <h1>Company Dashboard</h1>
+            <p>Manage company information and job requirements.</p>
+        </div>
+
+        <div class="result-card">
+            <h2>Company Profile</h2>
+            <form id="companyProfileForm">
+                <label>Company Name</label>
+                <input type="text" id="companyName" required>
+
+                <label>Company Description</label>
+                <textarea id="companyDescription" rows="3"></textarea>
+
+                <button type="submit">Save Profile</button>
+            </form>
+        </div>
+
+        <div class="result-card">
+            <h2>Add Job</h2>
+            <form id="companyJobForm">
+                <label>Job Title</label>
+                <input type="text" id="jobTitle" required>
+
+                <label>Job Description</label>
+                <textarea id="jobDescription" rows="3"></textarea>
+
+                <label>Required Skills</label>
+                <input type="text" id="jobSkills" placeholder="Python, Java, SQL" required>
+
+                <button type="submit">Add Job</button>
+            </form>
+        </div>
+
+        <div class="result-card">
+            <h2>Evaluate Candidate</h2>
+            <form id="candidateForm">
+                <input type="file" id="candidateFile" accept=".pdf,.docx,.txt,.csv,.png,.jpg,.jpeg" required>
+                <button type="submit">Analyse Candidate</button>
+            </form>
+            <div id="candidateResults"></div>
+        </div>
+    </section>
+
+</main>
+
+<footer>
+    <p>Portfolio Analyser and Job Matcher</p>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>
